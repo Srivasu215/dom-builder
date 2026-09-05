@@ -315,10 +315,13 @@ form.setTheme({ <span class="text-info">inTheme</span>: <span class="text-succes
                     </div>
                 </div>
             </div>
-            <div class="mt-4 p-3 bg-black rounded-3 text-center border border-secondary border-opacity-25">
+            <div class="mt-4 p-3 bg-black rounded-3 d-flex align-items-center justify-content-between flex-wrap gap-2 border border-secondary border-opacity-25">
                 <span class="text-muted small">
-                    If any attribute ID is mistyped or omitted, the HTML control silently fails to bind or render properly.
+                    <strong class="text-white">How We Tamed Attributes:</strong> Powered by <code class="text-info">tags.json</code>, the compiler checks all 14 composite tags, enforces void rules, and automatically discards illegal attributes.
                 </span>
+                <a href="https://keshavsoft.github.io/json-to-dom/tags/tags.json" target="_blank" class="btn btn-sm btn-outline-info text-xs font-mono">
+                    <i class="bi bi-box-arrow-up-right me-1"></i> tags.json
+                </a>
             </div>
         </section>
 
@@ -337,7 +340,7 @@ form.setTheme({ <span class="text-info">inTheme</span>: <span class="text-succes
                             <li><strong>Composite Assembly:</strong> Automatically generates the entire table (<code>thead</code>, <code>tbody</code>, <code>tfoot</code>) or form.</li>
                             <li><strong>Calculations:</strong> Evaluates summary footers (<code>sum</code>) and formulas (<code>GST 18%</code>) reactively.</li>
                             <li><strong>Automatic Styling:</strong> Injects correct Bootstrap classes from theme catalogs without manual typing.</li>
-                            <li><strong>Automatic Attributes:</strong> Maps alignments, data types, and datalist IDs without error.</li>
+                            <li><strong>Automatic Attributes:</strong> Validates against <code>tags.json</code>, mapping alignments, data types, and datalist IDs safely without error.</li>
                             <li><strong>Native Speed:</strong> <code>json-to-dom</code> compiles the spec into pure DOM with zero Virtual DOM overhead.</li>
                         </ol>
                     </div>
@@ -363,8 +366,11 @@ table.render();
                 </div>
             </div>
             <div class="text-center mt-4">
-                <a href="index.html" class="btn btn-primary px-4">
+                <a href="index.html" class="btn btn-outline-light px-3">
                     <i class="bi bi-arrow-left me-1"></i> Return to Overview
+                </a>
+                <a href="tags.html" class="btn btn-info text-dark fw-bold px-3 ms-2">
+                    <i class="bi bi-sliders me-1"></i> Try Tag Generator
                 </a>
             </div>
         </section>

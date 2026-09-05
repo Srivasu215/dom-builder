@@ -159,8 +159,12 @@
                     <li class="nav-item"><a class="nav-link" href="story.html"><i class="bi bi-easel2-fill text-info me-1"></i> Slide Deck</a></li>
                     <li class="nav-item"><a class="nav-link" href="table.html">Composite Table</a></li>
                     <li class="nav-item"><a class="nav-link" href="form.html">Composite Form</a></li>
+                    <li class="nav-item"><a class="nav-link" href="tags.html"><i class="bi bi-filetype-json text-info me-1"></i> Tag Generator</a></li>
                 </ul>
                 <div class="d-flex align-items-center gap-2">
+                    <a href="https://keshavsoft.github.io/json-to-dom/tags/tags.json" target="_blank" class="btn btn-sm btn-outline-light font-mono text-xs d-none d-md-inline-flex align-items-center gap-1">
+                        <i class="bi bi-box-arrow-up-right"></i> tags.json URL
+                    </a>
                     <a href="story.html" class="btn btn-sm btn-primary d-flex align-items-center gap-1">
                         <i class="bi bi-play-circle-fill"></i> View Presentation
                     </a>
@@ -342,6 +346,65 @@ table.render(); // Instantly compiled to native DOM!</code></pre>
         </div>
     </section>
 
+    <!-- The Foundation: tags.json Section -->
+    <section class="py-5 bg-light border-top border-light-subtle">
+        <div class="container">
+            <div class="card-custom p-4 p-md-5 border-0 shadow-sm bg-white">
+                <div class="row g-4 align-items-center">
+                    <div class="col-lg-7">
+                        <div class="badge bg-info-subtle text-info-emphasis border border-info-subtle px-3 py-1 rounded-pill mb-2 fw-bold text-xs">
+                            <i class="bi bi-cpu me-1"></i> The Core Engine Foundation
+                        </div>
+                        <h2 class="fw-bold mb-3">Under the Hood: tags.json</h2>
+                        <p class="text-muted mb-3">
+                            How does <code>json-to-dom</code> ensure developers never produce invalid HTML?
+                            By validating every tag, child node, and attribute against <strong>tags.json</strong> &mdash; 
+                            the strict grammar dictionary governing the 14 fundamental composite Table and Form tags.
+                        </p>
+                        <ul class="small text-secondary ps-3 mb-4 lh-lg">
+                            <li><strong class="text-dark">Text Restrictions:</strong> Prevents illegal textContent inside void elements like <code>&lt;input&gt;</code> or structural containers like <code>&lt;table&gt;</code>.</li>
+                            <li><strong class="text-dark">Child Restrictions:</strong> Enforces void tags so children are never mistakenly nested in inputs or options.</li>
+                            <li><strong class="text-dark">Attribute Filtering:</strong> Discards illegal attributes automatically before they reach the browser DOM.</li>
+                        </ul>
+                        <div class="d-flex flex-wrap gap-2">
+                            <a href="tags.html" class="btn btn-primary d-inline-flex align-items-center gap-1.5 fw-semibold px-4">
+                                <i class="bi bi-sliders"></i> Try Live Tag Generator
+                            </a>
+                            <a href="https://keshavsoft.github.io/json-to-dom/tags/tags.json" target="_blank" class="btn btn-outline-secondary d-inline-flex align-items-center gap-1.5 font-mono text-xs">
+                                <i class="bi bi-box-arrow-up-right"></i> Open tags.json URL
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="p-3 bg-dark text-white rounded-3 shadow-sm font-mono text-xs">
+                            <div class="d-flex justify-content-between text-secondary border-bottom border-secondary border-opacity-25 pb-2 mb-2">
+                                <span>tags/tags.json preview</span>
+                                <span class="text-info">v6 spec</span>
+                            </div>
+<pre class="text-info mb-0"><code>{
+  "table": {
+    "allowsTextContent": false,
+    "allowsChildren": true,
+    "allowedAttributes": ["class", "id", "style", "border"]
+  },
+  "input": {
+    "allowsTextContent": false,
+    "allowsChildren": false,
+    "allowedAttributes": ["type", "placeholder", "value", "name", "disabled", "readonly", "required", "class", "id", "list"]
+  },
+  "th": {
+    "allowsTextContent": true,
+    "allowsChildren": true,
+    "allowedAttributes": ["class", "id", "scope", "colspan", "rowspan"]
+  }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Live Interactive Demo -->
     <section id="live-demo" class="py-5 bg-white border-top border-bottom border-light-subtle">
         <div class="container">
@@ -392,6 +455,7 @@ table.render(); // Instantly compiled to native DOM!</code></pre>
                 <a href="story.html" class="text-secondary text-decoration-none"><i class="bi bi-easel2"></i> Slide Deck</a>
                 <a href="table.html" class="text-secondary text-decoration-none"><i class="bi bi-table"></i> Composite Table</a>
                 <a href="form.html" class="text-secondary text-decoration-none"><i class="bi bi-funnel"></i> Composite Form</a>
+                <a href="tags.html" class="text-secondary text-decoration-none"><i class="bi bi-filetype-json"></i> Tag Generator</a>
             </div>
         </div>
     </footer>
