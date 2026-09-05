@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dom-builder | Writing HTML is Tough. We Made It Simple.</title>
+    <meta name="description"
+        content="dom-builder: Why writing correct HTML, composite controls, classes, and attributes is tough — and how declarative JSON makes it simple.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Bootstrap 5 CSS & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- json-to-dom Engine -->
+    <script type="module" src="https://cdn.jsdelivr.net/gh/keshavsoft/json-to-dom/docs/dist/v3/min.js"></script>
+
+    <style>
+        :root {
+            --ks-primary: #2563eb;
+            --ks-primary-dark: #1d4ed8;
+            --ks-accent: #06b6d4;
+            --ks-danger: #ef4444;
+            --ks-success: #10b981;
+            --ks-bg-surface: #ffffff;
+            --ks-bg-subtle: #f8fafc;
+            --ks-text-main: #0f172a;
+            --ks-text-muted: #64748b;
+            --ks-border-color: #e2e8f0;
+            --ks-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --ks-font-mono: 'JetBrains Mono', monospace;
+        }
+
+        body {
+            font-family: var(--ks-font-sans);
+            color: var(--ks-text-main);
+            background-color: #f8fafc;
+            line-height: 1.6;
+        }
+
+        pre, code {
+            font-family: var(--ks-font-mono);
+        }
+
+        .hero-banner {
+            background: radial-gradient(circle at 10% 20%, rgba(37, 99, 235, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
+                linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+            border-bottom: 1px solid var(--ks-border-color);
+            padding: 5rem 0 3.5rem;
+        }
+
+        .hero-title {
+            font-size: 3.25rem;
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 1.15;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #2563eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card-custom {
+            background: #ffffff;
+            border-radius: 1.25rem;
+            border: 1px solid var(--ks-border-color);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -2px rgba(0, 0, 0, 0.03);
+            transition: all 0.2s ease;
+        }
+
+        .card-custom:hover {
+            box-shadow: 0 12px 20px -3px rgba(0, 0, 0, 0.06);
+            transform: translateY(-2px);
+        }
+
+        .pain-card {
+            border-top: 4px solid var(--ks-danger);
+        }
+
+        .solution-card {
+            border-top: 4px solid var(--ks-success);
+        }
+
+        .pain-number {
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            color: var(--ks-danger);
+            text-transform: uppercase;
+        }
+
+        .code-container {
+            background: #0f172a;
+            color: #e2e8f0;
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            overflow-x: auto;
+            font-size: 0.82rem;
+            max-height: 380px;
+        }
+
+        .demo-window {
+            background: #ffffff;
+            border-radius: 1rem;
+            border: 1px solid var(--ks-border-color);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+        }
+
+        .demo-header {
+            background: #0f172a;
+            color: #ffffff;
+            padding: 0.85rem 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .window-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background-color: #ef4444; }
+        .dot-yellow { background-color: #f59e0b; }
+        .dot-green { background-color: #10b981; }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top border-bottom border-secondary border-opacity-25">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+                <div class="rounded-3 bg-primary text-white d-flex align-items-center justify-content-center fw-bold"
+                    style="width: 32px; height: 32px; font-size: 0.9rem;">DB</div>
+                <span class="fw-bold tracking-tight">dom-builder</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3">
+                    <li class="nav-item"><a class="nav-link active" href="index.html">The Story</a></li>
+                    <li class="nav-item"><a class="nav-link" href="story.html"><i class="bi bi-easel2-fill text-info me-1"></i> Slide Deck</a></li>
+                    <li class="nav-item"><a class="nav-link" href="table.html">Composite Table</a></li>
+                    <li class="nav-item"><a class="nav-link" href="form.html">Composite Form</a></li>
+                </ul>
+                <div class="d-flex align-items-center gap-2">
+                    <a href="story.html" class="btn btn-sm btn-primary d-flex align-items-center gap-1">
+                        <i class="bi bi-play-circle-fill"></i> View Presentation
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-banner text-center">
+        <div class="container">
+            <div class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1.5 rounded-pill mb-3 fw-bold small">
+                <i class="bi bi-lightbulb-fill me-1"></i> The Philosophy of dom-builder
+            </div>
+            <h1 class="hero-title mb-3">Writing HTML is Tough.<br>We Made It Simple.</h1>
+            <p class="lead text-muted mx-auto mb-4" style="max-width: 760px;">
+                Writing raw markup for composite controls, memorizing dozens of attributes, and sprinkling CSS classes across hundreds of tags is exhausting and fragile.  
+                Here is the real problem &mdash; and how declarative JSON solves it.
+            </p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="#pain-points" class="btn btn-primary btn-lg px-4 d-flex align-items-center gap-2">
+                    <i class="bi bi-exclamation-triangle-fill"></i> Explore the 4 Pain Points
+                </a>
+                <a href="#live-demo" class="btn btn-outline-dark btn-lg px-4 d-flex align-items-center gap-2">
+                    <i class="bi bi-play-circle"></i> See It in Action
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- The 4 Core Pain Points of HTML -->
+    <section id="pain-points" class="py-5 bg-white border-bottom border-light-subtle">
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="text-danger fw-semibold text-uppercase small tracking-wide">The Reality Check</span>
+                <h2 class="fw-bold">The 4 Struggles of Writing Real-World HTML</h2>
+                <p class="text-muted mx-auto" style="max-width: 650px;">
+                    HTML looks simple in textbooks. But in real-world data-driven applications, it quickly becomes an unmaintainable burden.
+                </p>
+            </div>
+
+            <div class="row g-4">
+                <!-- Pain Point 1 -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="card-custom pain-card p-4 h-100">
+                        <div class="pain-number mb-2">Pain Point 01</div>
+                        <h5 class="fw-bold mb-2">Writing Correct HTML is Tough</h5>
+                        <p class="text-muted small mb-0">
+                            Nested string concatenation and manual <code>document.createElement</code> trees are verbosely repetitive, hard to read, and prone to unclosed tags and typos.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Pain Point 2 -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="card-custom pain-card p-4 h-100">
+                        <div class="pain-number mb-2">Pain Point 02</div>
+                        <h5 class="fw-bold mb-2">Composite Controls are Complex</h5>
+                        <p class="text-muted small mb-0">
+                            A real Table isn't just <code>&lt;table&gt;</code>. It's <code>thead</code>, <code>tbody</code>, <code>tfoot</code>, row serials (<code>#</code>), column alignments, and calculated totals. A Form requires complex input-groups and datalists.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Pain Point 3 -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="card-custom pain-card p-4 h-100">
+                        <div class="pain-number mb-2">Pain Point 03</div>
+                        <h5 class="fw-bold mb-2">Classes &amp; Theming are Painful</h5>
+                        <p class="text-muted small mb-0">
+                            Sprinkling Bootstrap classes across dozens of <code>&lt;th&gt;</code>, <code>&lt;td&gt;</code>, and <code>&lt;input&gt;</code> tags is exhausting. Changing to Dark mode means modifying hundreds of class names manually!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Pain Point 4 -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="card-custom pain-card p-4 h-100">
+                        <div class="pain-number mb-2">Pain Point 04</div>
+                        <h5 class="fw-bold mb-2">Attributes Require Deep Boilerplate</h5>
+                        <p class="text-muted small mb-0">
+                            You must remember and wire endless attributes: <code>colspan</code>, <code>type="number"</code>, <code>align="right"</code>, <code>list="id"</code>, <code>id</code>, <code>name</code>, and <code>placeholder</code>. Miss one and UI breaks.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Side-by-Side: The Nightmare vs The Solution -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="text-primary fw-semibold text-uppercase small tracking-wide">The Great Contrast</span>
+                <h2 class="fw-bold">How We Made It Simple</h2>
+                <p class="text-muted mx-auto" style="max-width: 650px;">
+                    Look at the difference between handwriting raw composite HTML versus declaring clean, portable JSON.
+                </p>
+            </div>
+
+            <div class="row g-4">
+                <!-- Left: Raw HTML Nightmare -->
+                <div class="col-lg-6">
+                    <div class="card-custom p-4 h-100 border-danger border-opacity-50">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <span class="badge bg-danger-subtle text-danger border border-danger-subtle fw-bold px-2.5 py-1">
+                                ❌ THE RAW HTML NIGHTMARE
+                            </span>
+                            <span class="small text-muted font-monospace">100+ Lines of Verbose Tags</span>
+                        </div>
+                        <p class="text-muted small mb-3">
+                            Manual nested tags, repeated classes on every cell, hardcoded attributes, and error-prone footer calculations:
+                        </p>
+                        <div class="code-container">
+<pre class="mb-0"><code class="text-danger">&lt;!-- Hundreds of lines of brittle markup --&gt;
+&lt;table class="table table-striped table-hover align-middle"&gt;
+  &lt;thead class="table-light border-bottom"&gt;
+    &lt;tr&gt;
+      &lt;th class="text-center" scope="col"&gt;#&lt;/th&gt;
+      &lt;th scope="col"&gt;Product Name&lt;/th&gt;
+      &lt;th class="text-end" scope="col"&gt;Amount&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td class="text-center"&gt;1&lt;/td&gt;
+      &lt;td&gt;ROPE 10MM&lt;/td&gt;
+      &lt;td class="text-end"&gt;1,200.00&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;!-- Repeat &lt;tr&gt; and classes for every row... --&gt;
+  &lt;/tbody&gt;
+  &lt;tfoot class="table-light border-top fw-bold"&gt;
+    &lt;tr&gt;
+      &lt;td colspan="2"&gt;Total&lt;/td&gt;
+      &lt;td class="text-end"&gt;1,200.00&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;!-- Manual tax rows and grand totals... --&gt;
+  &lt;/tfoot&gt;
+&lt;/table&gt;</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Clean Declarative JSON Solution -->
+                <div class="col-lg-6">
+                    <div class="card-custom p-4 h-100 border-success border-opacity-50">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <span class="badge bg-success-subtle text-success border border-success-subtle fw-bold px-2.5 py-1">
+                                ✅ THE DECLARATIVE JSON BREAKTHROUGH
+                            </span>
+                            <span class="small text-muted font-monospace">Clean &bull; Reusable &bull; Config-Driven</span>
+                        </div>
+                        <p class="text-muted small mb-3">
+                            You declare your data, columns, and calculations. The system handles all tag nesting, styling, and attributes:
+                        </p>
+                        <div class="code-container">
+<pre class="mb-0"><code class="text-success">// Just provide pure JSON!
+const table = new Table({
+  inData: [{ item: "ROPE 10MM", amount: 1200 }],
+  inColumns: [
+    { key: "item", label: "Product Name" },
+    { key: "amount", label: "Amount", type: "number", align: "right" }
+  ],
+  inConfig: {
+    serial: true, // Automatically creates '#' serials
+    foot: [
+      { id: "total", title: "Total", type: "aggregate", values: { amount: "sum" } },
+      { id: "tax", title: "GST (18%)", type: "eval", values: { amount: "total.amount * 0.18" } }
+    ]
+  },
+  inTargetContainerId: "table-container"
+});
+
+table.render(); // Instantly compiled to native DOM!</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Interactive Demo -->
+    <section id="live-demo" class="py-5 bg-white border-top border-bottom border-light-subtle">
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-between flex-wrap mb-4">
+                <div>
+                    <span class="text-primary fw-semibold text-uppercase small tracking-wide">Working Showcase</span>
+                    <h2 class="fw-bold mb-1">See How Simple It Is</h2>
+                    <p class="text-muted small mb-0">Composite Table with Serials, Alignments, and Multi-Tier GST Footers generated from pure JSON</p>
+                </div>
+                <div class="d-flex align-items-center gap-2 mt-2 mt-md-0">
+                    <span class="small text-muted fw-semibold"><i class="bi bi-palette me-1"></i>Theme:</span>
+                    <select id="theme-selector" class="form-select form-select-sm" style="width: 120px;">
+                        <option value="default" selected>Default</option>
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="demo-window shadow-sm">
+                <div class="demo-header">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="window-dots">
+                            <span class="dot dot-red"></span>
+                            <span class="dot dot-yellow"></span>
+                            <span class="dot dot-green"></span>
+                        </div>
+                        <span class="small font-monospace text-secondary">composite-table-demo.html</span>
+                    </div>
+                    <span class="badge bg-success small">Compiled from JSON</span>
+                </div>
+                <div class="p-4 bg-light">
+                    <div id="live-table" class="table-responsive bg-white p-3 rounded-3 border shadow-sm"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 border-top border-secondary border-opacity-25">
+        <div class="container d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div class="d-flex align-items-center gap-2">
+                <div class="rounded-2 bg-primary text-white d-flex align-items-center justify-content-center fw-bold small"
+                    style="width: 24px; height: 24px;">DB</div>
+                <span class="small text-secondary">dom-builder &bull; KeshavSoft UI Architecture</span>
+            </div>
+            <div class="d-flex gap-3 small text-secondary">
+                <a href="story.html" class="text-secondary text-decoration-none"><i class="bi bi-easel2"></i> Slide Deck</a>
+                <a href="table.html" class="text-secondary text-decoration-none"><i class="bi bi-table"></i> Composite Table</a>
+                <a href="form.html" class="text-secondary text-decoration-none"><i class="bi bi-funnel"></i> Composite Form</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Live Demo Script -->
+    <script type="module">
+        import { Table } from "https://cdn.jsdelivr.net/gh/keshavsoft/json-to-dom-renderers/docs/dist/v12/min.js";
+
+        const columns = [
+            { key: "item", label: "Product Name" },
+            { key: "category", label: "Category" },
+            { key: "qty", label: "Quantity", type: "number", align: "center" },
+            { key: "amount", label: "Amount (₹)", type: "number", align: "right" }
+        ];
+
+        const data = [
+            { item: "ROPE 10MM High Tensile", category: "Industrial", qty: 25, amount: 3000 },
+            { item: "Shading Net 50% Green", category: "Agriculture", qty: 10, amount: 1250 },
+            { item: "Baler Twine 400m Roll", category: "Packaging", qty: 40, amount: 2800 },
+            { item: "Nylon Safety Cordage", category: "Industrial", qty: 15, amount: 1425 }
+        ];
+
+        const table = new Table({
+            inData: data,
+            inColumns: columns,
+            inTargetContainerId: "live-table",
+            inConfig: {
+                serial: true,
+                row: { striped: true, hover: true },
+                foot: [
+                    { id: "subTotal", title: "Sub Total", type: "aggregate", values: { amount: "sum", qty: "sum" } },
+                    { id: "taxRow", title: "GST (18%)", type: "eval", values: { amount: "subTotal.amount * 0.18" } },
+                    { id: "grandTotal", title: "Grand Total", type: "eval", values: { amount: "subTotal.amount + taxRow.amount" } }
+                ]
+            }
+        });
+
+        table.render();
+
+        document.getElementById("theme-selector")?.addEventListener("change", (e) => {
+            table.setTheme({ inTheme: e.target.value });
+        });
+    </script>
+</body>
+
+</html>
