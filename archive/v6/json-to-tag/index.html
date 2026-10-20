@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Understand JSON to Tag: why declarative JSON can describe HTML structures and how specifications become native DOM elements.">
+  <title>JSON to Tag | Describe It. Build the DOM.</title>
+  <style>
+    :root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#172033;background:#fff;line-height:1.65}*{box-sizing:border-box}body{margin:0}main{max-width:980px;margin:auto;padding:42px 22px 56px}h1{font-size:clamp(2.3rem,6vw,4rem);line-height:1.08;margin:.4rem 0 1rem}h2{margin:2.2rem 0 .6rem}p{color:#526074}.eyebrow{font-size:.8rem;font-weight:750;letter-spacing:.12em;text-transform:uppercase;color:#2457c5}.lead{font-size:1.2rem;max-width:760px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}.card{display:block;border:1px solid #dbe2ec;border-radius:14px;padding:18px;color:inherit;text-decoration:none}.card:hover{border-color:#2457c5;background:#f8faff}.card h3{margin:0 0 6px}.card p{margin:0;font-size:.95rem}.flow{background:#f1f5f9;border-radius:12px;padding:18px;overflow:auto}code{font-family:ui-monospace,monospace}a{color:#2457c5}footer{border-top:1px solid #dbe2ec;margin-top:34px;padding-top:18px;font-size:.9rem;color:#64748b}
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="eyebrow">KeshavSoft · JavaScript library</div>
+    <h1>JSON to Tag</h1>
+    <p class="lead">Describe an HTML structure as data. Let a library turn that specification into native DOM elements.</p>
+    <p>Every web interface ultimately becomes a Document Object Model (DOM). Developers can describe it with HTML markup or construct it through JavaScript DOM APIs. JSON to Tag explores another approach: define the intended structure in a familiar, machine-readable JSON shape and build the DOM from that description.</p>
+  </header>
+  <section>
+    <h2>Why this approach?</h2>
+    <div class="grid">
+      <article class="card"><h3>HTML markup</h3><p>Expresses structure directly, but requires familiarity with tags, nesting, closing tags and attributes.</p></article>
+      <article class="card"><h3>DOM APIs</h3><p>Offer programmatic control, but element creation, attributes and child insertion can require repetitive code.</p></article>
+      <article class="card"><h3>JSON specification</h3><p>Represents structure as data that can be generated, inspected, changed, stored and passed between tools.</p></article>
+    </div>
+    <div class="flow"><code>JSON specification → JSON to Tag → Native HTML DOM</code></div>
+    <p>JSON is not the DOM itself; it is the description. The library interprets that description and creates DOM elements. This separates what the interface should contain from the code that constructs it.</p>
+  </section>
+  <section>
+    <h2>Learn the concepts</h2>
+    <div class="grid">
+      <a class="card" href="docs/guides/index.html"><h3>01 · Recursive traversal</h3><p>How nested specifications are traversed and how parent and child structures relate.</p></a>
+      <a class="card" href="docs/guides/buildingElements.html"><h3>02 · Building elements</h3><p>How a specification becomes an element, including text, attributes and children.</p></a>
+      <a class="card" href="docs/guides/jsonSpecificationReference.html"><h3>03 · Specification reference</h3><p>Understand the JSON fields and the meaning of the structure they describe.</p></a>
+    </div>
+  </section>
+  <section>
+    <h2>Explore the implementation references</h2>
+    <div class="grid">
+      <a class="card" href="docs/reference/index.html"><h3>Engine</h3><p>Low-level declarative DOM construction reference.</p></a>
+      <a class="card" href="docs/reference/renderers.html"><h3>Renderers</h3><p>Higher-level component and renderer reference.</p></a>
+      <a class="card" href="docs/reference/tags.html"><h3>HTML tag catalog</h3><p>Reference material for HTML tags and content.</p></a>
+      <a class="card" href="docs/archive/index.html"><h3>Archived pages</h3><p>Older landing-page drafts retained for reference.</p></a>
+    </div>
+  </section>
+  <footer><p>Use the project README and source code as the authority for installation, supported properties and exact API contracts. This documentation is organized to explain the motivation first, then the concepts and references.</p></footer>
+</main>
+</body>
+</html>
