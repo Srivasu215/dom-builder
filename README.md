@@ -43,17 +43,37 @@ KeshavSoft solves this with a clean, decoupled 3-tier pipeline:
 
 ---
 
-## 📂 The Interactive HTML Suite
+## 📂 Repository Structure
 
-| File | Purpose | What It Demonstrates |
-| :--- | :--- | :--- |
-| [**`index.html`**](index.html) | **The Master Story** | Overview of the 4 HTML struggles vs. the declarative solution, the 3-tier architecture, and live tabbed demos. |
-| [**`story.html`**](story.html) | **5-Slide Interactive Presentation** | Full-screen presentation (use Arrow Left/Right keys) walking through each struggle and the declarative breakthrough. |
-| [**`table.html`**](table.html) | **Composite Table Suite** | Deep-dive into automated serials (`#`), column alignments, multi-tier footer sums, and modular builders (`simple`, `withFooter`, `headerOnly`, `bodyOnly`, `footerOnly`). |
-| [**`datalist.html`**](datalist.html) | **Datalist Autocomplete** | Declarative HTML5 `<datalist>` suggestion popovers generated directly from JSON arrays with live search inputs. |
-| [**`select.html`**](select.html) | **Select Dropdowns** | Declarative `<select>` dropdowns and option lists with live interactive selection handlers. |
-| [**`form.html`**](form.html) | **Composite Form** | Schema-driven input groups, automatic autocomplete datalist bindings, and control indexing. |
-| [**`playground.html`**](playground.html) | **Live Playground / Sandbox** | Interactive real-time sandbox to edit JSON specs and immediately see rendered DOM components. |
+```text
+dom-builder/
+│
+├── index.html                  <-- Master Portal (Clean, simple, live tabs, quickstart)
+├── playground.html             <-- Interactive Live Sandbox (edit JSON & mount live)
+├── story.html                  <-- 5-Slide Full-screen Presentation
+│
+├── json-renderers/             <-- Complete documentation & component suites for json-renderers
+│   ├── index.html              <-- Documentation hub & runtime guide
+│   ├── table.html              <-- Composite Table deep-dive (simple, withFooter, alignments)
+│   ├── datalist.html           <-- HTML5 Datalist autocomplete guide
+│   ├── select.html             <-- Select dropdown guide
+│   ├── form.html               <-- Composite Form guide
+│   ├── subDoc/                 <-- Conceptual house-building & advanced mental models
+│   │   ├── simpleDoc.html
+│   │   ├── advanceDoc.html
+│   │   └── index.html
+│   └── samples/                <-- Step-by-step CDN and window.ks sample tracks
+│       ├── table/
+│       ├── datalist/
+│       └── select/
+│
+├── json-to-tag/                <-- Tag generation & engine
+│   ├── tags.html               <-- Tag generator workbench
+│   └── engine.html             <-- Native DOM synthesis deep-dive
+│
+├── v1/                         <-- Archived v1
+└── v2/                         <-- Archived v2
+```
 
 ---
 
@@ -64,7 +84,7 @@ This suite is built with **pure HTML, CSS, and modern JavaScript**:
 - **Zero node_modules**
 - **Zero local dependencies**
 
-Simply open [index.html](index.html), [table.html](table.html), or [playground.html](playground.html) directly in any web browser!
+Simply open [index.html](index.html) or [playground.html](playground.html) directly in any web browser!
 
 ---
 

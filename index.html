@@ -4,9 +4,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>dom-builder | Writing HTML is Tough. We Made It Simple.</title>
+  <title>dom-builder | Declarative JSON to Native HTML DOM</title>
   <meta name="description"
-    content="dom-builder: Why writing correct HTML, composite controls, classes, and attributes is tough — and how KeshavSoft's declarative JSON architecture makes it simple." />
+    content="Turn pure business JSON into fast, accessible, native browser components (Tables, Datalists, Selects) with zero boilerplate." />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -23,10 +23,6 @@
     :root {
       --ks-primary: #2563eb;
       --ks-primary-dark: #1d4ed8;
-      --ks-accent: #06b6d4;
-      --ks-danger: #ef4444;
-      --ks-success: #10b981;
-      --ks-warning: #f59e0b;
       --ks-bg-surface: #ffffff;
       --ks-bg-subtle: #f8fafc;
       --ks-text-main: #0f172a;
@@ -39,7 +35,7 @@
     body {
       font-family: var(--ks-font-sans);
       color: var(--ks-text-main);
-      background-color: #f8fafc;
+      background-color: #ffffff;
       line-height: 1.6;
     }
 
@@ -47,12 +43,20 @@
       font-family: var(--ks-font-mono);
     }
 
-    .hero-banner {
-      background: radial-gradient(circle at 10% 20%, rgba(37, 99, 235, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
-        linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+    /* Minimal Navbar */
+    .site-nav {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
       border-bottom: 1px solid var(--ks-border-color);
-      padding: 5rem 0 3.5rem;
+    }
+
+    /* Hero */
+    .hero-section {
+      background: radial-gradient(circle at 10% 20%, rgba(37, 99, 235, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.05) 0%, transparent 40%),
+        linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      padding: 5rem 0 4rem;
+      border-bottom: 1px solid var(--ks-border-color);
     }
 
     .hero-title {
@@ -60,270 +64,222 @@
       font-weight: 900;
       letter-spacing: -0.04em;
       line-height: 1.15;
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #2563eb 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: #0f172a;
     }
 
-    .card-custom {
+    .card-clean {
       background: #ffffff;
-      border-radius: 1.25rem;
+      border-radius: 1rem;
       border: 1px solid var(--ks-border-color);
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -2px rgba(0, 0, 0, 0.03);
-      transition: all 0.2s ease;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -2px rgba(0, 0, 0, 0.02);
     }
 
-    .card-custom:hover {
-      box-shadow: 0 12px 20px -3px rgba(0, 0, 0, 0.06);
-      transform: translateY(-2px);
-    }
-
-    .pain-card {
-      border-top: 4px solid var(--ks-danger);
-    }
-
-    .solution-card {
-      border-top: 4px solid var(--ks-success);
-    }
-
-    .pain-number {
-      font-size: 0.8rem;
-      font-weight: 800;
-      letter-spacing: 0.05em;
-      color: var(--ks-danger);
-      text-transform: uppercase;
-    }
-
-    .code-container {
+    .code-dark {
       background: #0f172a;
       color: #e2e8f0;
       border-radius: 0.75rem;
       padding: 1.25rem;
+      font-size: 0.84rem;
       overflow-x: auto;
-      font-size: 0.82rem;
-      max-height: 380px;
     }
 
-    .demo-window {
-      background: #ffffff;
-      border-radius: 1rem;
-      border: 1px solid var(--ks-border-color);
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.06);
-      overflow: hidden;
-    }
-
-    .demo-header {
-      background: #0f172a;
-      color: #ffffff;
-      padding: 0.85rem 1.25rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .window-dots {
-      display: flex;
-      gap: 6px;
-    }
-
-    .dot {
-      width: 11px;
-      height: 11px;
-      border-radius: 50%;
-    }
-
-    .dot-red { background-color: #ef4444; }
-    .dot-yellow { background-color: #f59e0b; }
-    .dot-green { background-color: #10b981; }
-
-    /* Clean demo tables */
-    .demo-window table {
+    /* Table preview styling */
+    #demo-table-mount table {
       width: 100%;
       border-collapse: collapse;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      border: 1px solid var(--ks-border-color);
     }
 
-    .demo-window th {
+    #demo-table-mount th {
       background: #f8fafc;
       font-size: 0.75rem;
       text-transform: uppercase;
       font-weight: 700;
+      letter-spacing: 0.05em;
       padding: 0.75rem 1rem;
-      border-bottom: 2px solid #e2e8f0;
+      border-bottom: 2px solid #cbd5e1;
     }
 
-    .demo-window td {
+    #demo-table-mount td {
       padding: 0.75rem 1rem;
       border-bottom: 1px solid #f1f5f9;
-      font-size: 0.85rem;
+      font-size: 0.88rem;
     }
 
-    .demo-window tfoot td {
+    #demo-table-mount tfoot td {
       background: #f8fafc;
       font-weight: 700;
-      border-top: 2px solid #e2e8f0;
+      border-top: 2px solid #cbd5e1;
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #eff6ff;
+      color: var(--ks-primary);
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top border-bottom border-secondary border-opacity-25">
-    <div class="container">
-      <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+  <!-- Minimal Clean Navbar (Only 2 Links) -->
+  <nav class="site-nav sticky-top py-3">
+    <div class="container d-flex align-items-center justify-content-between">
+      <a class="navbar-brand d-flex align-items-center gap-2 text-decoration-none" href="index.html">
         <div class="rounded-3 bg-primary text-white d-flex align-items-center justify-content-center fw-bold"
           style="width: 32px; height: 32px; font-size: 0.9rem;">DB</div>
-        <span class="fw-bold tracking-tight">dom-builder</span>
+        <span class="fw-bold fs-5 text-dark tracking-tight">dom-builder</span>
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3">
-          <li class="nav-item"><a class="nav-link active" href="index.html">The Story</a></li>
-          <li class="nav-item"><a class="nav-link" href="story.html"><i class="bi bi-easel2-fill text-info me-1"></i> Slide Deck</a></li>
-          <li class="nav-item"><a class="nav-link" href="table.html">Composite Table</a></li>
-          <li class="nav-item"><a class="nav-link" href="datalist.html">Datalist Autocomplete</a></li>
-          <li class="nav-item"><a class="nav-link" href="select.html">Select Dropdowns</a></li>
-          <li class="nav-item"><a class="nav-link" href="form.html">Composite Form</a></li>
-          <li class="nav-item"><a class="nav-link" href="playground.html"><i class="bi bi-code-slash text-warning me-1"></i> Playground</a></li>
-        </ul>
-        <div class="d-flex align-items-center gap-2">
-          <a href="https://github.com/keshavsoft/dom-builder" target="_blank" class="btn btn-sm btn-outline-light d-flex align-items-center gap-1 font-mono">
-            <i class="bi bi-github"></i> GitHub
-          </a>
-          <a href="story.html" class="btn btn-sm btn-primary d-flex align-items-center gap-1">
-            <i class="bi bi-play-circle-fill"></i> View Presentation
-          </a>
-        </div>
+
+      <div class="d-flex align-items-center gap-3">
+        <a href="playground.html" class="btn btn-sm btn-warning text-dark fw-bold d-flex align-items-center gap-1">
+          <i class="bi bi-code-slash"></i> Playground
+        </a>
+        <a href="https://github.com/keshavsoft/dom-builder" target="_blank" class="btn btn-sm btn-outline-dark d-flex align-items-center gap-1 font-mono">
+          <i class="bi bi-github"></i> GitHub
+        </a>
       </div>
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <header class="hero-banner text-center">
+  <!-- Hero Section (Informative & Direct) -->
+  <header class="hero-section text-center">
     <div class="container">
       <div class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1.5 rounded-pill mb-3 fw-bold small">
-        <i class="bi bi-lightbulb-fill me-1"></i> The Philosophy of Declarative UI
+        Declarative JSON &rarr; Native HTML DOM
       </div>
-      <h1 class="hero-title mb-3">Writing HTML is Tough.<br>We Made It Simple.</h1>
-      <p class="lead text-muted mx-auto mb-4" style="max-width: 760px;">
-        Writing raw markup for composite tables, memorizing hundreds of attributes, and sprinkling CSS classes across nested tags is exhausting and error-prone.
-        Here is the real problem &mdash; and how KeshavSoft's declarative JSON architecture solves it.
+      <h1 class="hero-title mb-3">
+        Build Complex Web UI with Pure JSON
+      </h1>
+      <p class="lead text-muted mx-auto mb-4" style="max-width: 680px;">
+        Stop writing verbose HTML boilerplate, nested <code>createElement</code> calls, and CSS class soup.
+        Declare your data and structure in JSON &mdash; the engine compiles and mounts native DOM elements instantly.
       </p>
       <div class="d-flex justify-content-center gap-3 flex-wrap">
-        <a href="#live-demo" class="btn btn-primary btn-lg px-4 d-flex align-items-center gap-2">
-          <i class="bi bi-play-circle-fill"></i> See It in Action
+        <a href="#interactive-demo" class="btn btn-primary btn-lg px-4 fw-semibold">
+          <i class="bi bi-play-circle-fill me-1"></i> See Live Demo
         </a>
-        <a href="playground.html" class="btn btn-warning btn-lg px-4 d-flex align-items-center gap-2 fw-semibold">
-          <i class="bi bi-code-slash"></i> Interactive Playground
-        </a>
-        <a href="#architecture" class="btn btn-outline-dark btn-lg px-4 d-flex align-items-center gap-2">
-          <i class="bi bi-diagram-3"></i> The 3-Tier Architecture
+        <a href="playground.html" class="btn btn-outline-dark btn-lg px-4 fw-semibold">
+          <i class="bi bi-sliders me-1"></i> Open Sandbox
         </a>
       </div>
     </div>
   </header>
 
-  <!-- The 4 Core Struggles of HTML -->
-  <section id="pain-points" class="py-5 bg-white border-bottom border-light-subtle">
+  <!-- Side-by-Side: Before vs After (The Core Value) -->
+  <section class="py-5 bg-white border-bottom">
     <div class="container">
-      <div class="text-center mb-5">
-        <span class="badge bg-danger-subtle text-danger px-3 py-1 rounded-pill fw-bold text-uppercase small">The Problem</span>
-        <h2 class="fw-bold mt-2">The 4 Real Struggles of Writing HTML</h2>
-        <p class="text-muted mx-auto" style="max-width: 600px;">Why every web developer spends countless hours fighting boilerplate markup instead of shipping product logic.</p>
+      <div class="text-center mb-4">
+        <h3 class="fw-bold">Why Declarative? The Comparison</h3>
+        <p class="text-muted small">Compare writing manual imperative DOM code vs declaring pure JSON.</p>
       </div>
 
       <div class="row g-4">
-        <!-- Struggle 1 -->
-        <div class="col-md-6 col-lg-3">
-          <div class="card-custom pain-card h-100 p-4">
-            <div class="pain-number mb-2">Struggle #1</div>
-            <h5 class="fw-bold text-dark">Writing Correct HTML is Tough</h5>
-            <p class="text-muted small mb-0">
-              Manual <code>document.createElement</code> calls or string concatenations are repetitive, difficult to sanitize, and prone to unclosed tags and memory leaks.
-            </p>
+        <!-- Before -->
+        <div class="col-lg-6">
+          <div class="card-clean p-4 h-100 border-danger border-opacity-25" style="background: #fffafa;">
+            <div class="d-flex align-items-center gap-2 mb-2 text-danger fw-bold small text-uppercase">
+              <i class="bi bi-x-circle-fill"></i> Imperative HTML / Vanilla DOM (Tedious)
+            </div>
+            <div class="code-dark" style="background: #1e1b1b; color: #fecaca; font-size: 0.8rem; max-height: 250px;">
+<pre class="mb-0"><code>// 30+ lines of verbose imperative DOM manipulation
+const tbl = document.createElement("table");
+const thead = document.createElement("thead");
+const headerRow = document.createElement("tr");
+
+["Item", "Qty", "Price"].forEach(col => {
+  const th = document.createElement("th");
+  th.textContent = col;
+  headerRow.appendChild(th);
+});
+thead.appendChild(headerRow);
+tbl.appendChild(thead);
+
+// Manual loops for rows, totals, formatting...
+// Manual event listeners, class assignments...
+// Fragile, repetitive, hard to maintain.</code></pre>
+            </div>
           </div>
         </div>
 
-        <!-- Struggle 2 -->
-        <div class="col-md-6 col-lg-3">
-          <div class="card-custom pain-card h-100 p-4">
-            <div class="pain-number mb-2">Struggle #2</div>
-            <h5 class="fw-bold text-dark">Composite Controls are Complex</h5>
-            <p class="text-muted small mb-0">
-              Tables require coordinating <code>&lt;thead&gt;</code>, <code>&lt;tbody&gt;</code>, and <code>&lt;tfoot&gt;</code>, column alignments, serial numbers, and calculated aggregate totals.
-            </p>
-          </div>
-        </div>
+        <!-- After -->
+        <div class="col-lg-6">
+          <div class="card-clean p-4 h-100 border-success border-opacity-25" style="background: #f0fdf4;">
+            <div class="d-flex align-items-center gap-2 mb-2 text-success fw-bold small text-uppercase">
+              <i class="bi bi-check-circle-fill"></i> KeshavSoft Declarative JSON (Simple)
+            </div>
+            <div class="code-dark" style="background: #0f172a; color: #86efac; font-size: 0.8rem; max-height: 250px;">
+<pre class="mb-0"><code>// Pure declarative JSON &mdash; 6 clean lines:
+render({
+  type: "table.withFooter",
+  columns: ["item", "qty", "amount"],
+  data: records,
+  targetHtmlId: "target-container"
+});
 
-        <!-- Struggle 3 -->
-        <div class="col-md-6 col-lg-3">
-          <div class="card-custom pain-card h-100 p-4">
-            <div class="pain-number mb-2">Struggle #3</div>
-            <h5 class="fw-bold text-dark">Classes &amp; Theming are Exhausting</h5>
-            <p class="text-muted small mb-0">
-              Sprinkling CSS class names across hundreds of tags pollutes your markup. Switching from Light to Dark mode requires rewriting class strings across every single tag.
-            </p>
-          </div>
-        </div>
-
-        <!-- Struggle 4 -->
-        <div class="col-md-6 col-lg-3">
-          <div class="card-custom pain-card h-100 p-4">
-            <div class="pain-number mb-2">Struggle #4</div>
-            <h5 class="fw-bold text-dark">Attributes Require Deep Trivia</h5>
-            <p class="text-muted small mb-0">
-              Remembering and wiring <code>colspan</code>, <code>align</code>, <code>list="datalist-id"</code>, <code>autocomplete</code>, and input IDs without missing details is exhausting.
-            </p>
+// That's it! 
+// Headers, rows, calculated footers, alignments, 
+// and DOM mounting happen automatically.</code></pre>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Live Demo Section -->
-  <section id="live-demo" class="py-5" style="background-color: #f1f5f9;">
+  <!-- Interactive Live Demo Section -->
+  <section id="interactive-demo" class="py-5 bg-light border-bottom">
     <div class="container">
-      <div class="text-center mb-5">
-        <span class="badge bg-success-subtle text-success px-3 py-1 rounded-pill fw-bold text-uppercase small">Live Demo</span>
-        <h2 class="fw-bold mt-2">See It In Action</h2>
-        <p class="text-muted mx-auto" style="max-width: 600px;">
-          Pure JSON data compiled and mounted directly into the live DOM using the unified <code class="text-primary font-mono">json-renderers</code> bundle.
+      <div class="text-center mb-4">
+        <span class="badge bg-primary-subtle text-primary px-3 py-1 rounded-pill fw-bold text-uppercase small">Interactive Preview</span>
+        <h3 class="fw-bold mt-2">Live Component Showcase</h3>
+        <p class="text-muted small mx-auto" style="max-width: 550px;">
+          Select a component tab below to see real JSON rendered and mounted live into the browser.
         </p>
       </div>
 
-      <!-- Demo Tabs -->
+      <!-- Component Switcher Tabs -->
       <ul class="nav nav-pills justify-content-center mb-4 gap-2" id="demoTabs" role="tablist">
-        <li class="nav-item" role="presentation">
-          <button class="nav-link active px-4 fw-semibold" id="table-tab" data-bs-toggle="pill" data-bs-target="#tab-table" type="button" role="tab">
-            <i class="bi bi-table me-1"></i> Composite Table
+        <li class="nav-item">
+          <button class="nav-link active px-4 fw-semibold" id="tab-btn-table" data-bs-toggle="pill" data-bs-target="#tab-table">
+            <i class="bi bi-table me-1"></i> Table with Footers
           </button>
         </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link px-4 fw-semibold" id="datalist-tab" data-bs-toggle="pill" data-bs-target="#tab-datalist" type="button" role="tab">
+        <li class="nav-item">
+          <button class="nav-link px-4 fw-semibold" id="tab-btn-datalist" data-bs-toggle="pill" data-bs-target="#tab-datalist">
             <i class="bi bi-lightning-charge me-1"></i> Autocomplete Datalist
           </button>
         </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link px-4 fw-semibold" id="select-tab" data-bs-toggle="pill" data-bs-target="#tab-select" type="button" role="tab">
+        <li class="nav-item">
+          <button class="nav-link px-4 fw-semibold" id="tab-btn-select" data-bs-toggle="pill" data-bs-target="#tab-select">
             <i class="bi bi-menu-button-wide me-1"></i> Select Dropdown
           </button>
         </li>
       </ul>
 
-      <!-- Tab Contents -->
-      <div class="tab-content" id="demoTabsContent">
-        
-        <!-- Table Tab -->
-        <div class="tab-pane fade show active" id="tab-table" role="tabpanel">
-          <div class="row g-4 align-items-center">
-            <div class="col-lg-6">
-              <div class="code-container">
-                <pre class="mb-0"><code id="code-table">// Pure Declarative Configuration
-import render from "https://cdn.jsdelivr.net/gh/keshavsoft/json-renderers@main/docs/dist/v18/min.js";
+      <!-- Tab Content Area -->
+      <div class="card-clean p-4 bg-white shadow-sm">
+        <div class="tab-content" id="demoTabsContent">
 
-render({
+          <!-- 1. Table Tab -->
+          <div class="tab-pane fade show active" id="tab-table">
+            <div class="row g-4 align-items-center">
+              <div class="col-lg-5">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="fw-bold small text-muted text-uppercase">JSON Configuration:</span>
+                  <span class="badge bg-light text-muted border font-mono">type: "table.withFooter"</span>
+                </div>
+                <div class="code-dark">
+<pre class="mb-0"><code>render({
   type: "table.withFooter",
   columns: ["item", "category", "qty", "amount"],
   data: [
@@ -332,249 +288,286 @@ render({
     { item: "Baler Twine 400m", category: "Packaging", qty: 40, amount: 2800 },
     { item: "Safety Cordage", category: "Hardware", qty: 15, amount: 1425 }
   ],
-  targetHtmlId: "home-table-target",
-  showLog: false
+  targetHtmlId: "demo-table-mount"
 });</code></pre>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="demo-window">
-                <div class="demo-header">
-                  <div class="window-dots">
-                    <span class="dot dot-red"></span>
-                    <span class="dot dot-yellow"></span>
-                    <span class="dot dot-green"></span>
-                  </div>
-                  <span class="font-mono text-xs text-white opacity-75">Mounted into #home-table-target</span>
                 </div>
-                <div class="p-4 bg-white">
-                  <div id="home-table-target">
-                    <!-- Live table mounts here -->
+                <div class="mt-3 pt-3 border-top small text-muted d-flex gap-3 flex-wrap">
+                  <span><i class="bi bi-check2 text-success fw-bold"></i> Auto <code>#</code> Serials</span>
+                  <span><i class="bi bi-check2 text-success fw-bold"></i> Number Right-Align</span>
+                  <span><i class="bi bi-check2 text-success fw-bold"></i> Sum in <code>&lt;tfoot&gt;</code></span>
+                </div>
+              </div>
+
+              <div class="col-lg-7">
+                <div class="p-3 bg-light rounded-3 border">
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="small fw-bold text-dark text-uppercase">Mounted Table Output:</span>
+                    <span class="badge bg-success font-mono">Live DOM</span>
                   </div>
-                  <div class="mt-3 text-end">
-                    <a href="table.html" class="btn btn-sm btn-outline-primary fw-semibold">
-                      Explore Full Table Suite <i class="bi bi-arrow-right"></i>
-                    </a>
+                  <div class="table-responsive bg-white rounded border">
+                    <div id="demo-table-mount" class="p-2">
+                      <!-- Rendered table mounts here -->
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- Datalist Tab -->
-        <div class="tab-pane fade" id="tab-datalist" role="tabpanel">
-          <div class="row g-4 align-items-center">
-            <div class="col-lg-6">
-              <div class="code-container">
-                <pre class="mb-0"><code>// HTML5 <datalist> Autocomplete
-import render from "https://cdn.jsdelivr.net/gh/keshavsoft/json-renderers@main/docs/dist/v18/min.js";
-
-const frameworks = ["React", "Vue.js", "Angular", "SvelteKit", "Next.js", "SolidJS"];
+          <!-- 2. Datalist Tab -->
+          <div class="tab-pane fade" id="tab-datalist">
+            <div class="row g-4 align-items-center">
+              <div class="col-lg-5">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="fw-bold small text-muted text-uppercase">JSON Configuration:</span>
+                  <span class="badge bg-light text-muted border font-mono">type: "datalist"</span>
+                </div>
+                <div class="code-dark">
+<pre class="mb-0"><code>const frameworks = [
+  "React", "Vue.js", "Angular", 
+  "SvelteKit", "Next.js", "SolidJS"
+];
 
 render({
   type: "datalist",
   data: frameworks,
-  targetHtmlId: "home-datalist-target"
+  targetHtmlId: "demo-datalist-mount"
 });
 
-// Connected via: <input list="home-datalist-demo" /></code></pre>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="demo-window">
-                <div class="demo-header">
-                  <div class="window-dots">
-                    <span class="dot dot-red"></span>
-                    <span class="dot dot-yellow"></span>
-                    <span class="dot dot-green"></span>
-                  </div>
-                  <span class="font-mono text-xs text-white opacity-75">Live Browser Autocomplete</span>
+// Connected via:
+// &lt;input list="demo-datalist-id" /&gt;</code></pre>
                 </div>
-                <div class="p-4 bg-white">
-                  <label class="form-label fw-bold small text-muted text-uppercase">Type in this input to test suggestions:</label>
-                  <input type="text" class="form-control form-control-lg mb-3" list="home-datalist-demo" placeholder="Type 'Re', 'An', or 'Sv'..." />
-                  <div id="home-datalist-target">
-                    <!-- Datalist mounts here -->
+                <div class="mt-3 pt-3 border-top small text-muted d-flex gap-3 flex-wrap">
+                  <span><i class="bi bi-check2 text-success fw-bold"></i> Native HTML5</span>
+                  <span><i class="bi bi-check2 text-success fw-bold"></i> Zero JS Listeners</span>
+                  <span><i class="bi bi-check2 text-success fw-bold"></i> Mobile Autocomplete</span>
+                </div>
+              </div>
+
+              <div class="col-lg-7">
+                <div class="p-4 bg-light rounded-3 border">
+                  <span class="small fw-bold text-dark text-uppercase d-block mb-2">Test Live Browser Autocomplete:</span>
+                  <input type="text" class="form-control form-control-lg mb-2" list="demo-datalist-id" placeholder="Type letters like 'Re', 'An', or 'Sv'..." />
+                  <div class="text-muted small">
+                    <i class="bi bi-info-circle me-1"></i> Suggestions pop up natively without heavy plugins or CSS overrides.
                   </div>
-                  <div class="mt-2 text-end">
-                    <a href="datalist.html" class="btn btn-sm btn-outline-primary fw-semibold">
-                      Explore Full Datalist Suite <i class="bi bi-arrow-right"></i>
-                    </a>
+                  <div id="demo-datalist-mount">
+                    <!-- Datalist mounts here -->
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- Select Tab -->
-        <div class="tab-pane fade" id="tab-select" role="tabpanel">
-          <div class="row g-4 align-items-center">
-            <div class="col-lg-6">
-              <div class="code-container">
-                <pre class="mb-0"><code>// Semantic Dropdown from JSON
-import render from "https://cdn.jsdelivr.net/gh/keshavsoft/json-renderers@main/docs/dist/v18/min.js";
-
-const countries = ["India", "United States", "United Kingdom", "Germany", "Japan"];
+          <!-- 3. Select Tab -->
+          <div class="tab-pane fade" id="tab-select">
+            <div class="row g-4 align-items-center">
+              <div class="col-lg-5">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="fw-bold small text-muted text-uppercase">JSON Configuration:</span>
+                  <span class="badge bg-light text-muted border font-mono">type: "select"</span>
+                </div>
+                <div class="code-dark">
+<pre class="mb-0"><code>const countries = [
+  "India", "United States", 
+  "United Kingdom", "Germany", "Japan"
+];
 
 render({
   type: "select",
   data: countries,
-  targetHtmlId: "home-select-target"
+  targetHtmlId: "demo-select-mount"
 });</code></pre>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="demo-window">
-                <div class="demo-header">
-                  <div class="window-dots">
-                    <span class="dot dot-red"></span>
-                    <span class="dot dot-yellow"></span>
-                    <span class="dot dot-green"></span>
-                  </div>
-                  <span class="font-mono text-xs text-white opacity-75">Live Dropdown</span>
                 </div>
-                <div class="p-4 bg-white">
-                  <label class="form-label fw-bold small text-muted text-uppercase">Generated Dropdown:</label>
-                  <div id="home-select-target" class="mb-3">
+                <div class="mt-3 pt-3 border-top small text-muted d-flex gap-3 flex-wrap">
+                  <span><i class="bi bi-check2 text-success fw-bold"></i> Semantic <code>&lt;select&gt;</code></span>
+                  <span><i class="bi bi-check2 text-success fw-bold"></i> Direct Array Binding</span>
+                  <span><i class="bi bi-check2 text-success fw-bold"></i> Form-Ready</span>
+                </div>
+              </div>
+
+              <div class="col-lg-7">
+                <div class="p-4 bg-light rounded-3 border">
+                  <span class="small fw-bold text-dark text-uppercase d-block mb-2">Mounted Dropdown Element:</span>
+                  <div id="demo-select-mount" class="mb-2">
                     <!-- Select mounts here -->
                   </div>
-                  <div class="mt-2 text-end">
-                    <a href="select.html" class="btn btn-sm btn-outline-primary fw-semibold">
-                      Explore Full Select Suite <i class="bi bi-arrow-right"></i>
-                    </a>
+                  <div class="text-muted small">
+                    <i class="bi bi-info-circle me-1"></i> Generated semantic <code>&lt;select&gt;</code> and <code>&lt;option&gt;</code> tags.
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Modern 3-Tier Architecture -->
-  <section id="architecture" class="py-5 bg-white border-bottom border-light-subtle">
+  <!-- The 3-Tier Architecture (Simple & Informative) -->
+  <section class="py-5 bg-white border-bottom">
     <div class="container">
       <div class="text-center mb-5">
-        <span class="badge bg-primary-subtle text-primary px-3 py-1 rounded-pill fw-bold text-uppercase small">Clean Architecture</span>
-        <h2 class="fw-bold mt-2">The Modern 3-Tier Platform</h2>
-        <p class="text-muted mx-auto" style="max-width: 600px;">
-          Separation of concerns ensuring high reusability, strict validation, and zero framework overhead.
+        <h3 class="fw-bold">How It Works: The 3-Tier Pipeline</h3>
+        <p class="text-muted small mx-auto" style="max-width: 500px;">Clean separation of concerns with zero virtual DOM overhead.</p>
+      </div>
+
+      <div class="row g-4 text-center">
+        <!-- Step 1 -->
+        <div class="col-md-4">
+          <div class="card-clean p-4 h-100">
+            <div class="step-number mb-3">1</div>
+            <h5 class="fw-bold text-dark">Your Data &amp; Columns</h5>
+            <p class="text-muted small mb-0">
+              Pass your raw JSON arrays and simple column names straight from your backend API or store.
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="col-md-4">
+          <div class="card-clean p-4 h-100">
+            <div class="step-number mb-3">2</div>
+            <h5 class="fw-bold text-dark">Spec Compiler</h5>
+            <p class="text-muted small mb-0">
+              <code>json-renderers-build</code> compiles blueprints for tables, footers, datalists, and select menus.
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="col-md-4">
+          <div class="card-clean p-4 h-100">
+            <div class="step-number mb-3">3</div>
+            <h5 class="fw-bold text-dark">Fast DOM Mount</h5>
+            <p class="text-muted small mb-0">
+              <code>@keshavsoft/json-to-tag</code> translates the blueprint into real browser elements and mounts them.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dedicated Deep Dives & Guides -->
+  <section class="py-5 bg-white border-bottom">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h3 class="fw-bold">Explore Deep-Dive Suites</h3>
+        <p class="text-muted small mx-auto" style="max-width: 540px;">
+          Choose your track &mdash; learn the architectural story, experiment in the sandbox, or dive into full component documentation.
         </p>
       </div>
 
       <div class="row g-4">
-        <!-- Tier 1 -->
+        <!-- 1. The Story Slide Deck -->
         <div class="col-md-4">
-          <div class="card-custom solution-card h-100 p-4">
-            <div class="badge bg-danger-subtle text-danger font-mono mb-3">Tier 1 &bull; Guard Layer</div>
-            <h5 class="fw-bold text-dark">json-renderers-guard</h5>
-            <p class="text-muted small">
-              Validates input configurations before execution. Guarantees compulsory properties (<code>type</code>, <code>data</code>, <code>targetHtmlId</code>) and prevents runtime crashes.
+          <div class="card-clean p-4 h-100 d-flex flex-column">
+            <div class="d-flex align-items-center gap-2 mb-2 text-info fw-bold small text-uppercase">
+              <i class="bi bi-easel2-fill"></i> Visual Presentation
+            </div>
+            <h5 class="fw-bold text-dark">The Story: Why HTML is Tough</h5>
+            <p class="text-muted small flex-grow-1">
+              A 5-slide visual presentation covering string concatenation traps, composite table challenges, CSS class soup, and declarative JSON solutions.
             </p>
+            <a href="story.html" class="btn btn-sm btn-outline-info fw-semibold align-self-start">
+              Launch Slide Deck &rarr;
+            </a>
           </div>
         </div>
 
-        <!-- Tier 2 -->
+        <!-- 2. Interactive Playground -->
         <div class="col-md-4">
-          <div class="card-custom solution-card h-100 p-4">
-            <div class="badge bg-primary-subtle text-primary font-mono mb-3">Tier 2 &bull; Spec Compiler</div>
-            <h5 class="fw-bold text-dark">json-renderers-build</h5>
-            <p class="text-muted small">
-              Headless compiler transforming pure data arrays into component specifications. Exposes modular builders: <code>simple</code>, <code>withFooter</code>, <code>headerOnly</code>, <code>bodyOnly</code>, and <code>footerOnly</code>.
+          <div class="card-clean p-4 h-100 d-flex flex-column">
+            <div class="d-flex align-items-center gap-2 mb-2 text-warning fw-bold small text-uppercase">
+              <i class="bi bi-code-slash"></i> Live Sandbox
+            </div>
+            <h5 class="fw-bold text-dark">Interactive Playground</h5>
+            <p class="text-muted small flex-grow-1">
+              Edit JSON specs and inspect live rendered DOM in real time. Features presets for tables, datalists, and select menus with error reporting.
             </p>
+            <a href="playground.html" class="btn btn-sm btn-warning text-dark fw-bold align-self-start">
+              Open Playground &rarr;
+            </a>
           </div>
         </div>
 
-        <!-- Tier 3 -->
+        <!-- 3. json-renderers Deep Docs -->
         <div class="col-md-4">
-          <div class="card-custom solution-card h-100 p-4">
-            <div class="badge bg-success-subtle text-success font-mono mb-3">Tier 3 &bull; DOM Mount</div>
-            <h5 class="fw-bold text-dark">json-renderers + json-to-tag</h5>
-            <p class="text-muted small">
-              High-speed tag synthesis converting the JSON spec into native DOM nodes and mounting directly into your container with zero Virtual DOM overhead.
+          <div class="card-clean p-4 h-100 d-flex flex-column">
+            <div class="d-flex align-items-center gap-2 mb-2 text-success fw-bold small text-uppercase">
+              <i class="bi bi-journal-code"></i> Component Specs
+            </div>
+            <h5 class="fw-bold text-dark">Full Component Suite</h5>
+            <p class="text-muted small flex-grow-1">
+              Explore in-depth documentation, sample tracks, and house-building metaphors for tables (withFooter, simple), datalists, and select menus.
             </p>
+            <a href="json-renderers/index.html" class="btn btn-sm btn-outline-success fw-semibold align-self-start">
+              View Component Docs &rarr;
+            </a>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Component Suites Navigation Grid -->
+  <!-- Quick Start (One Script Tag) -->
   <section class="py-5 bg-light">
-    <div class="container">
-      <div class="text-center mb-4">
-        <span class="badge bg-secondary-subtle text-secondary px-3 py-1 rounded-pill fw-bold text-uppercase small">Documentation Suites</span>
-        <h2 class="fw-bold mt-2">Explore the Component Suites</h2>
-      </div>
+    <div class="container" style="max-width: 800px;">
+      <div class="card-clean p-4 p-md-5">
+        <div class="d-flex align-items-center gap-2 mb-2 text-primary fw-bold small text-uppercase">
+          <i class="bi bi-lightning-charge-fill"></i> Quick Start in 10 Seconds
+        </div>
+        <h4 class="fw-bold mb-3">Add to any HTML page via CDN</h4>
+        <p class="text-muted small mb-4">
+          No bundler, build step, or <code>node_modules</code> required. Just import the ES module directly in your browser:
+        </p>
 
-      <div class="row g-4">
-        <div class="col-md-4">
-          <div class="card-custom p-4 h-100 d-flex flex-column justify-content-between">
-            <div>
-              <div class="d-flex align-items-center gap-2 mb-2">
-                <i class="bi bi-table text-primary fs-4"></i>
-                <h5 class="fw-bold mb-0">Composite Table</h5>
-              </div>
-              <p class="text-muted small">
-                Dynamic table builders (withFooter, simple, headerOnly, bodyOnly, footerOnly), automated alignments, and serial numbers.
-              </p>
-            </div>
-            <a href="table.html" class="btn btn-outline-primary btn-sm fw-semibold">View Table Suite <i class="bi bi-arrow-right"></i></a>
-          </div>
+        <div class="code-dark mb-4">
+<pre class="mb-0"><code>&lt;!-- 1. Target Container --&gt;
+&lt;div id="my-table"&gt;&lt;/div&gt;
+
+&lt;!-- 2. Single Script Import &amp; Render --&gt;
+&lt;script type="module"&gt;
+  import render from "https://cdn.jsdelivr.net/gh/keshavsoft/json-renderers@main/docs/dist/v18/min.js";
+
+  render({
+    type: "table.withFooter",
+    columns: ["name", "role", "city"],
+    data: [
+      { name: "Rajesh", role: "Architect", city: "Bengaluru" },
+      { name: "Anita", role: "Engineer", city: "Hyderabad" }
+    ],
+    targetHtmlId: "my-table"
+  });
+&lt;/script&gt;</code></pre>
         </div>
 
-        <div class="col-md-4">
-          <div class="card-custom p-4 h-100 d-flex flex-column justify-content-between">
-            <div>
-              <div class="d-flex align-items-center gap-2 mb-2">
-                <i class="bi bi-lightning-charge text-purple fs-4" style="color: #7c3aed;"></i>
-                <h5 class="fw-bold mb-0">Datalist Autocomplete</h5>
-              </div>
-              <p class="text-muted small">
-                Mobile-friendly, accessible HTML5 <code>&lt;datalist&gt;</code> suggestion popovers generated directly from JSON arrays.
-              </p>
-            </div>
-            <a href="datalist.html" class="btn btn-outline-primary btn-sm fw-semibold">View Datalist Suite <i class="bi bi-arrow-right"></i></a>
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <div class="card-custom p-4 h-100 d-flex flex-column justify-content-between">
-            <div>
-              <div class="d-flex align-items-center gap-2 mb-2">
-                <i class="bi bi-menu-button-wide text-info fs-4"></i>
-                <h5 class="fw-bold mb-0">Select Dropdowns</h5>
-              </div>
-              <p class="text-muted small">
-                Declarative <code>&lt;select&gt;</code> and <code>selectOptionsOnly</code> dropdowns with live interactive selection handlers.
-              </p>
-            </div>
-            <a href="select.html" class="btn btn-outline-primary btn-sm fw-semibold">View Select Suite <i class="bi bi-arrow-right"></i></a>
-          </div>
+        <div class="text-center">
+          <a href="playground.html" class="btn btn-warning btn-lg px-4 text-dark fw-bold">
+            <i class="bi bi-code-slash me-1"></i> Open Interactive Playground
+          </a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="border-t border-slate-200 bg-white py-4 border-top">
-    <div class="container text-center text-muted small">
-      <span class="fw-semibold text-dark">dom-builder</span> &bull; Declarative UI Platform &bull; Developed by <a href="https://github.com/keshavsoft" class="text-decoration-none">KeshavSoft</a>
+  <!-- Minimal Footer -->
+  <footer class="py-4 bg-white border-top text-center text-muted small">
+    <div class="container">
+      <span class="fw-semibold text-dark">dom-builder</span> &bull; Declarative UI Platform &bull; Developed by <a href="https://github.com/keshavsoft" target="_blank" class="text-decoration-none text-primary">KeshavSoft</a>
     </div>
   </footer>
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Live Render Script for Home Page -->
+  <!-- Live Execution Script -->
   <script type="module">
     import render from "https://cdn.jsdelivr.net/gh/keshavsoft/json-renderers@main/docs/dist/v18/min.js";
 
-    // 1. Render Table
+    // 1. Table
     try {
       render({
         type: "table.withFooter",
@@ -585,36 +578,36 @@ render({
           { item: "Baler Twine 400m", category: "Packaging", qty: 40, amount: 2800 },
           { item: "Safety Cordage", category: "Hardware", qty: 15, amount: 1425 }
         ],
-        targetHtmlId: "home-table-target"
+        targetHtmlId: "demo-table-mount"
       });
     } catch (e) {
-      console.warn("Home table render:", e);
+      console.warn("Table demo error:", e);
     }
 
-    // 2. Render Datalist
+    // 2. Datalist
     try {
       render({
         type: "datalist",
         data: ["React", "Vue.js", "Angular", "SvelteKit", "Next.js", "SolidJS"],
-        targetHtmlId: "home-datalist-target"
+        targetHtmlId: "demo-datalist-mount"
       });
-      const dl = document.querySelector("#home-datalist-target datalist") || document.getElementById("home-datalist-target");
-      dl.id = "home-datalist-demo";
+      const dl = document.querySelector("#demo-datalist-mount datalist") || document.getElementById("demo-datalist-mount");
+      dl.id = "demo-datalist-id";
     } catch (e) {
-      console.warn("Home datalist render:", e);
+      console.warn("Datalist demo error:", e);
     }
 
-    // 3. Render Select
+    // 3. Select
     try {
       render({
         type: "select",
         data: ["India", "United States", "United Kingdom", "Germany", "Japan"],
-        targetHtmlId: "home-select-target"
+        targetHtmlId: "demo-select-mount"
       });
-      const sel = document.querySelector("#home-select-target select");
+      const sel = document.querySelector("#demo-select-mount select");
       if (sel) sel.className = "form-select form-select-lg";
     } catch (e) {
-      console.warn("Home select render:", e);
+      console.warn("Select demo error:", e);
     }
   </script>
 

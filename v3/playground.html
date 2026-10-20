@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Playground &amp; Sandbox | dom-builder</title>
+  <meta name="description"
+    content="Interactive live sandbox for testing KeshavSoft declarative JSON renderers in real-time." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+
+  <!-- Bootstrap 5 CSS & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+  <style>
+    :root {
+      --ks-primary: #2563eb;
+      --ks-primary-dark: #1d4ed8;
+      --ks-accent: #f59e0b;
+      --ks-bg-surface: #ffffff;
+      --ks-bg-subtle: #f8fafc;
+      --ks-text-main: #0f172a;
+      --ks-text-muted: #64748b;
+      --ks-border-color: #e2e8f0;
+      --ks-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --ks-font-mono: 'JetBrains Mono', monospace;
+    }
+
+    body {
+      font-family: var(--ks-font-sans);
+      color: var(--ks-text-main);
+      background-color: #f8fafc;
+      line-height: 1.6;
+    }
+
+    pre, code, textarea {
+      font-family: var(--ks-font-mono);
+    }
+
+    .hero-banner {
+      background: radial-gradient(circle at 10% 20%, rgba(245, 158, 11, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(37, 99, 235, 0.08) 0%, transparent 40%),
+        linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+      border-bottom: 1px solid var(--ks-border-color);
+      padding: 3.5rem 0 2.5rem;
+    }
+
+    .card-custom {
+      background: #ffffff;
+      border-radius: 1rem;
+      border: 1px solid var(--ks-border-color);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -2px rgba(0, 0, 0, 0.03);
+    }
+
+    .editor-textarea {
+      width: 100%;
+      height: 420px;
+      background: #0f172a;
+      color: #f8fafc;
+      border: 1px solid #334155;
+      border-radius: 0.75rem;
+      padding: 1.25rem;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      resize: vertical;
+    }
+
+    .editor-textarea:focus {
+      outline: none;
+      border-color: var(--ks-primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+    }
+
+    .preview-box {
+      min-height: 420px;
+      background: #ffffff;
+      border: 2px dashed #cbd5e1;
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    /* Table styles in preview */
+    .preview-box table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid #e2e8f0;
+      border-radius: 0.5rem;
+      overflow: hidden;
+    }
+
+    .preview-box th {
+      background: #f1f5f9;
+      padding: 0.65rem 0.85rem;
+      font-size: 0.8rem;
+      font-weight: bold;
+      border-bottom: 2px solid #cbd5e1;
+      text-transform: uppercase;
+    }
+
+    .preview-box td {
+      padding: 0.65rem 0.85rem;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 0.85rem;
+    }
+
+    .preview-box tfoot td {
+      background: #f8fafc;
+      font-weight: bold;
+      border-top: 2px solid #cbd5e1;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-dark bg-dark sticky-top border-bottom border-secondary border-opacity-25 py-2.5">
+    <div class="container d-flex align-items-center justify-content-between">
+      <a class="navbar-brand d-flex align-items-center gap-2 text-decoration-none" href="index.html">
+        <div class="rounded-3 bg-primary text-white d-flex align-items-center justify-content-center fw-bold"
+          style="width: 32px; height: 32px; font-size: 0.9rem; background-color: var(--ks-primary) !important;">DB</div>
+        <span class="fw-bold tracking-tight text-white">dom-builder</span>
+      </a>
+
+      <div class="d-flex align-items-center gap-2">
+        <a href="index.html" class="btn btn-sm btn-outline-light d-flex align-items-center gap-1">
+          <i class="bi bi-house"></i> Home
+        </a>
+        <a href="story.html" class="btn btn-sm btn-outline-info d-flex align-items-center gap-1">
+          <i class="bi bi-easel2"></i> Story
+        </a>
+        <a href="https://github.com/keshavsoft/dom-builder" target="_blank" class="btn btn-sm btn-outline-secondary text-light d-flex align-items-center gap-1 font-mono">
+          <i class="bi bi-github"></i> GitHub
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Banner -->
+  <header class="hero-banner text-center">
+    <div class="container">
+      <div class="badge bg-warning-subtle text-dark border px-3 py-1.5 rounded-pill mb-2 fw-bold small">
+        <i class="bi bi-sliders me-1"></i> Interactive Sandbox
+      </div>
+      <h1 class="display-6 fw-bold mb-2">Live JSON-to-DOM Playground</h1>
+      <p class="text-muted mx-auto mb-0" style="max-width: 650px;">
+        Test and experiment with declarative UI specs directly in your browser with real-time DOM mounting.
+      </p>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="container py-4">
+    <!-- Preset Template Bar -->
+    <div class="card-custom p-3 mb-4 d-flex flex-wrap align-items-center justify-content-between gap-3">
+      <div class="d-flex align-items-center gap-2 flex-wrap">
+        <span class="small fw-bold text-muted text-uppercase">Load Preset:</span>
+        <button id="preset-table" class="btn btn-sm btn-primary">Table (withFooter)</button>
+        <button id="preset-table-simple" class="btn btn-sm btn-outline-secondary">Table (simple)</button>
+        <button id="preset-datalist" class="btn btn-sm btn-outline-secondary">Datalist (Autocomplete)</button>
+        <button id="preset-select" class="btn btn-sm btn-outline-secondary">Select (Dropdown)</button>
+      </div>
+      <button id="btn-run" class="btn btn-success btn-sm px-4 fw-bold d-flex align-items-center gap-1">
+        <i class="bi bi-play-fill fs-6"></i> Run &amp; Mount
+      </button>
+    </div>
+
+    <div class="row g-4">
+      <!-- Left: JSON Config Editor -->
+      <div class="col-lg-6">
+        <div class="card-custom p-4">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 class="fw-bold mb-0 text-dark"><i class="bi bi-file-earmark-code me-1 text-primary"></i>JSON Configuration</h6>
+            <span id="editor-hint" class="badge bg-light text-muted border font-mono small">JSON</span>
+          </div>
+          <textarea id="json-editor" class="editor-textarea" spellcheck="false"></textarea>
+        </div>
+      </div>
+
+      <!-- Right: Live Output -->
+      <div class="col-lg-6">
+        <div class="card-custom p-4">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 class="fw-bold mb-0 text-dark"><i class="bi bi-browser-chrome me-1 text-success"></i>Live Preview Output</h6>
+            <span id="preview-status" class="badge bg-success font-mono">Rendered</span>
+          </div>
+
+          <div id="preview-container" class="preview-box">
+            <div id="playground-target">
+              <!-- Render output mounts here -->
+            </div>
+          </div>
+
+          <div id="error-output" class="alert alert-danger mt-3 d-none font-mono small mb-0"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 bg-white py-4 mt-5 border-top">
+    <div class="container text-center text-muted small">
+      <span class="fw-semibold text-dark">dom-builder</span> &bull; Declarative UI Platform &bull; Developed by <a href="https://github.com/keshavsoft" class="text-decoration-none">KeshavSoft</a>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Live Execution Script -->
+  <script type="module">
+    import render from "https://cdn.jsdelivr.net/gh/keshavsoft/json-renderers@main/docs/dist/v18/min.js";
+
+    const editor = document.getElementById("json-editor");
+    const runBtn = document.getElementById("btn-run");
+    const previewStatus = document.getElementById("preview-status");
+    const errorOutput = document.getElementById("error-output");
+
+    const presets = {
+      tableWithFooter: {
+        type: "table.withFooter",
+        columns: ["product", "category", "qty", "price"],
+        data: [
+          { product: "High Tensile Wire 12mm", category: "Hardware", qty: 20, price: 1800 },
+          { product: "Polypropylene Rope 8mm", category: "Hardware", qty: 50, price: 950 },
+          { product: "Agri Shade Netting 75%", category: "Agriculture", qty: 12, price: 2400 },
+          { product: "Packing Twine Roll 1kg", category: "Packaging", qty: 100, price: 320 }
+        ],
+        targetHtmlId: "playground-target",
+        showLog: false
+      },
+      tableSimple: {
+        type: "table.simple",
+        columns: ["id", "employeeName", "role", "city"],
+        data: [
+          { id: 101, employeeName: "Rajesh Kumar", role: "Frontend Architect", city: "Bengaluru" },
+          { id: 102, employeeName: "Anita Sharma", role: "Fullstack Engineer", city: "Hyderabad" },
+          { id: 103, employeeName: "Vikram Mehta", role: "Product Designer", city: "Pune" },
+          { id: 104, employeeName: "Pooja Patel", role: "QA Lead", city: "Ahmedabad" }
+        ],
+        targetHtmlId: "playground-target",
+        showLog: false
+      },
+      datalist: {
+        type: "datalist",
+        data: ["React", "Vue.js", "Angular", "SvelteKit", "Next.js", "SolidJS", "Astro", "Qwik", "Lit"],
+        targetHtmlId: "playground-target",
+        showLog: false
+      },
+      select: {
+        type: "select",
+        data: ["Standard Shipping (3-5 days)", "Express Priority (1-2 days)", "Overnight Guaranteed", "Local Warehouse Pickup"],
+        targetHtmlId: "playground-target",
+        showLog: false
+      }
+    };
+
+    function executeConfig() {
+      errorOutput.classList.add("d-none");
+      errorOutput.textContent = "";
+
+      try {
+        const config = JSON.parse(editor.value);
+        config.targetHtmlId = "playground-target";
+
+        render(config);
+
+        if (config.type === "datalist") {
+          // If datalist, also insert a demo input so the user can test suggestions
+          const target = document.getElementById("playground-target");
+          const dl = target.querySelector("datalist") || target;
+          dl.id = "playground-datalist-input";
+          
+          let demoInput = document.getElementById("playground-test-input");
+          if (!demoInput) {
+            demoInput = document.createElement("input");
+            demoInput.id = "playground-test-input";
+            demoInput.className = "form-control form-control-lg mb-3";
+            demoInput.placeholder = "Click or type to test suggestions...";
+            demoInput.setAttribute("list", "playground-datalist-input");
+            target.prepend(demoInput);
+          }
+        }
+
+        previewStatus.textContent = `Rendered (${config.type})`;
+        previewStatus.className = "badge bg-success font-mono";
+      } catch (err) {
+        console.error("Execution error:", err);
+        errorOutput.classList.remove("d-none");
+        errorOutput.textContent = `Execution Error: ${err.message}`;
+        previewStatus.textContent = "Error";
+        previewStatus.className = "badge bg-danger font-mono";
+      }
+    }
+
+    function setPreset(presetKey) {
+      editor.value = JSON.stringify(presets[presetKey], null, 2);
+      executeConfig();
+    }
+
+    document.getElementById("preset-table").addEventListener("click", () => setPreset("tableWithFooter"));
+    document.getElementById("preset-table-simple").addEventListener("click", () => setPreset("tableSimple"));
+    document.getElementById("preset-datalist").addEventListener("click", () => setPreset("datalist"));
+    document.getElementById("preset-select").addEventListener("click", () => setPreset("select"));
+    runBtn.addEventListener("click", executeConfig);
+
+    // Initial load
+    setPreset("tableWithFooter");
+  </script>
+
+</body>
+
+</html>
