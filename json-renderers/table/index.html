@@ -112,31 +112,35 @@
 <body>
 
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top border-bottom border-secondary border-opacity-25">
-    <div class="container">
-      <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
-        <div class="rounded-3 bg-primary text-white d-flex align-items-center justify-content-center fw-bold"
-          style="width: 32px; height: 32px; font-size: 0.9rem; background-color: var(--ks-primary) !important;">DB</div>
-        <span class="fw-bold tracking-tight">dom-builder</span>
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3">
-          <li class="nav-item"><a class="nav-link" href="index.html">The Story</a></li>
-          <li class="nav-item"><a class="nav-link" href="story.html"><i class="bi bi-easel2-fill text-info me-1"></i> Slide Deck</a></li>
-          <li class="nav-item"><a class="nav-link active" href="table.html">Composite Table</a></li>
-          <li class="nav-item"><a class="nav-link" href="datalist.html">Datalist Autocomplete</a></li>
-          <li class="nav-item"><a class="nav-link" href="select.html">Select Dropdowns</a></li>
-          <li class="nav-item"><a class="nav-link" href="form.html">Composite Form</a></li>
-          <li class="nav-item"><a class="nav-link" href="playground.html"><i class="bi bi-code-slash text-warning me-1"></i> Playground</a></li>
-        </ul>
-        <div class="d-flex align-items-center gap-2">
-          <a href="https://github.com/keshavsoft/dom-builder" target="_blank" class="btn btn-sm btn-outline-light d-flex align-items-center gap-1 font-mono">
-            <i class="bi bi-github"></i> GitHub
-          </a>
-        </div>
+  <nav class="navbar navbar-dark bg-dark sticky-top border-bottom border-secondary border-opacity-25 py-2.5">
+    <div class="container d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center gap-3">
+        <a class="navbar-brand d-flex align-items-center gap-2 text-decoration-none" href="../../index.html">
+          <div class="rounded-3 bg-primary text-white d-flex align-items-center justify-content-center fw-bold"
+            style="width: 32px; height: 32px; font-size: 0.9rem;">DB</div>
+          <span class="fw-bold tracking-tight text-white">dom-builder</span>
+        </a>
+        <span class="text-secondary small">&bull;</span>
+        <a href="../index.html" class="text-decoration-none text-light small fw-semibold">
+          json-renderers
+        </a>
+        <span class="text-secondary small">&bull;</span>
+        <span class="badge bg-success font-mono">table/</span>
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        <a href="cdn.html" class="btn btn-sm btn-outline-light d-none d-sm-inline-flex align-items-center gap-1">
+          <i class="bi bi-box-arrow-up-right"></i> CDN Guide
+        </a>
+        <a href="windowKs.html" class="btn btn-sm btn-outline-light d-none d-sm-inline-flex align-items-center gap-1">
+          <i class="bi bi-window"></i> window.ks
+        </a>
+        <a href="../../playground.html" class="btn btn-sm btn-warning text-dark fw-bold d-flex align-items-center gap-1">
+          <i class="bi bi-code-slash"></i> Playground
+        </a>
+        <a href="https://github.com/keshavsoft/dom-builder" target="_blank" class="btn btn-sm btn-outline-secondary text-light d-flex align-items-center gap-1 font-mono">
+          <i class="bi bi-github"></i>
+        </a>
       </div>
     </div>
   </nav>
