@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>JSON to Tag — Describe It. Build the DOM.</title>
+    <style>
+        body {
+            margin: 0;
+            font: 16px/1.7 system-ui, sans-serif;
+            color: #202938
+        }
+
+        main {
+            max-width: 900px;
+            margin: auto;
+            padding: 36px 22px
+        }
+
+        h1 {
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            line-height: 1.15;
+            margin-bottom: 8px
+        }
+
+        h2 {
+            margin-top: 30px
+        }
+
+        p,
+        li {
+            color: #526074
+        }
+
+        .lead {
+            font-size: 1.2rem
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px
+        }
+
+        .card {
+            border: 1px solid #dbe2ec;
+            border-radius: 12px;
+            padding: 16px
+        }
+
+        pre {
+            background: #f1f5f9;
+            padding: 16px;
+            border-radius: 10px;
+            overflow: auto
+        }
+
+        code {
+            font-family: ui-monospace, monospace
+        }
+
+        a {
+            color: #2457c5
+        }
+
+        footer {
+            border-top: 1px solid #dbe2ec;
+            margin-top: 32px;
+            padding-top: 16px
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <header>
+            <h1>JSON to Tag</h1>
+            <p class="lead">Describe your HTML as JSON. Let the library build the DOM.</p>
+            <p>JSON to Tag is a JavaScript library that transforms declarative JSON specifications into native HTML DOM
+                elements.</p>
+        </header>
+
+        <h2>Why JSON to Tag?</h2>
+        <p>Every web interface ultimately becomes a Document Object Model (DOM). Traditionally, developers describe that
+            interface using HTML markup or construct it programmatically with JavaScript.</p>
+
+        <div class="grid">
+            <section class="card">
+                <h3>HTML markup</h3>
+                <p>Requires knowledge of HTML tags, nesting, opening and closing tags, and attributes.</p>
+            </section>
+            <section class="card">
+                <h3>JavaScript DOM APIs</h3>
+                <p>Provides programmatic control, but requires repeated element creation, attribute setting, and child
+                    insertion.</p>
+            </section>
+            <section class="card">
+                <h3>JSON to Tag</h3>
+                <p>Describe the intended structure as data and let the library create the corresponding DOM elements.
+                </p>
+            </section>
+        </div>
+
+        <h2>The idea</h2>
+        <p>JSON already represents structured information using familiar objects, keys, arrays, and values. A UI can
+            also be described as structured information: which tag to create, what text it contains, which attributes it
+            needs, and which children belong inside it.</p>
+        <pre><code>JSON specification
+        ↓
+   JSON to Tag
+        ↓
+Native HTML DOM elements</code></pre>
+
+        <h2>Why this matters</h2>
+        <ul>
+            <li>Keep UI structure separate from the code that builds it.</li>
+            <li>Generate specifications programmatically or reuse existing JSON data.</li>
+            <li>Make UI structures easier to inspect, modify, share, and process with JSON tools.</li>
+            <li>Reuse one DOM-building library instead of repeatedly writing element-construction code.</li>
+        </ul>
+
+        <h2>What the library provides</h2>
+        <p><code>buildSpecElement()</code> builds DOM elements from a specification. The repository also provides
+            specification-review functionality and an HTML tag catalog.</p>
+
+        <h2>Get started</h2>
+        <pre><code>npm install @keshavsoft/json-to-tag</code></pre>
+        <p>Explore the <a href="../README.md">README</a> for the documented API and examples, and the
+            <code>docs/tags/tags.json</code> catalog for supported tag definitions.</p>
+
+        <footer>
+            <p><strong>JSON to Tag</strong> — describe the structure as data; let the library build the DOM.</p>
+        </footer>
+    </main>
+</body>
+
+</html>
