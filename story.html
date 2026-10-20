@@ -347,21 +347,15 @@ form.setTheme({ <span class="text-info">inTheme</span>: <span class="text-succes
                 </div>
                 <div class="col-lg-6">
                     <div class="code-box">
-<span class="text-secondary">// All 4 struggles solved in 15 lines of JSON:</span>
-const table = new Table({
-  <span class="text-info">inData</span>: records,
-  <span class="text-info">inColumns</span>: columns,
-  <span class="text-info">inConfig</span>: {
-    <span class="text-warning">serial</span>: true,
-    <span class="text-warning">foot</span>: [
-      { <span class="text-info">id</span>: <span class="text-success">"total"</span>, <span class="text-info">type</span>: <span class="text-success">"aggregate"</span>, <span class="text-info">values</span>: { <span class="text-warning">amount</span>: <span class="text-success">"sum"</span> } },
-      { <span class="text-info">id</span>: <span class="text-success">"tax"</span>, <span class="text-info">type</span>: <span class="text-success">"eval"</span>, <span class="text-info">values</span>: { <span class="text-warning">amount</span>: <span class="text-success">"total.amount * 0.18"</span> } }
-    ]
-  },
-  <span class="text-info">inTargetContainerId</span>: <span class="text-success">"table-container"</span>
-});
+<span class="text-secondary">// All 4 struggles solved in 6 lines of declarative JSON:</span>
+import render from "https://cdn.jsdelivr.net/gh/keshavsoft/json-renderers@main/docs/dist/v18/min.js";
 
-table.render();
+render({
+  <span class="text-info">type</span>: <span class="text-success">"table.withFooter"</span>,
+  <span class="text-info">columns</span>: ["item", "category", "qty", "amount"],
+  <span class="text-info">data</span>: records,
+  <span class="text-info">targetHtmlId</span>: <span class="text-success">"table-container"</span>
+});
                     </div>
                 </div>
             </div>
@@ -369,8 +363,8 @@ table.render();
                 <a href="index.html" class="btn btn-outline-light px-3">
                     <i class="bi bi-arrow-left me-1"></i> Return to Overview
                 </a>
-                <a href="tags.html" class="btn btn-info text-dark fw-bold px-3 ms-2">
-                    <i class="bi bi-sliders me-1"></i> Try Tag Generator
+                <a href="playground.html" class="btn btn-warning text-dark fw-bold px-3 ms-2">
+                    <i class="bi bi-code-slash me-1"></i> Try Live Playground
                 </a>
             </div>
         </section>
